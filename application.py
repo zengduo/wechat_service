@@ -17,3 +17,6 @@ def wechat_auth():
         s = ''.join(s)
         if (hashlib.sha1(s).hexdigest() == signature):
             return make_response(echostr)
+            
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80)
