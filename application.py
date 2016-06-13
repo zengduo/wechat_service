@@ -3,6 +3,8 @@ from flask import Flask, request, make_response
 
 app = Flask(__name__)
 
+DEBUG = True
+
 @app.route('/', methods=['GET', 'POST'])
 # def wechat_auth():
 #     if request.method == 'GET':
@@ -21,4 +23,4 @@ def hello():
     return '<p>Hello World!</p>'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=3000)
