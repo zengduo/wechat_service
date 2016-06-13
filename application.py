@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def wechat_auth():
     if request.method == 'GET':
-        token = 'your token'  
+        token = 'vxoSJZUB7Qcj5lf6s4uLWIg'  
         query = request.args
         signature = query.get('signature', '')
         timestamp = query.get('timestamp', '')
