@@ -1,7 +1,5 @@
-import hashlib
-
 from flask import Flask, request, make_response
-import hashlib
+
 
 app = Flask(__name__)
 
