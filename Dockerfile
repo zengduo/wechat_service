@@ -6,6 +6,6 @@ COPY . /usr/src/app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD [ "python","application.py"]
