@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 80
 
-CMD [ "python","application.py"]
+CMD [ "python","application2.py"]
