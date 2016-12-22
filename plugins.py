@@ -3,8 +3,11 @@ import urllib2
 import re
 import json
 import string
+import requests
+from pypinyin import lazy_pinyin
 
 APIKEY = 'e620ec2a512410c7a31f1b65e2a10e51'
+
 
 def get_weather_info():
     url = "http://m.ip138.com/51/guangzhou/tianqi/"
@@ -32,7 +35,6 @@ def get_weather_info():
 def get_news_info():
     url = 'http://apis.baidu.com/showapi_open_bus/channel_news/search_news?channelId=5572a109b3cdc86cf39001db&channelName=%E5%9B%BD%E5%86%85%E6%9C%80%E6%96%B0&title=%E4%B8%8A%E5%B8%82&page=1&needContent=0&needHtml=0'
 
-
     req = urllib2.Request(url)
 
     req.add_header("apikey", APIKEY)
@@ -40,7 +42,7 @@ def get_news_info():
     resp = urllib2.urlopen(req)
     content = resp.read()
 
-    if(content):
+    if (content):
         print(content)
 
 
@@ -60,3 +62,19 @@ def get_weixin_hot():
         news.append(nitem)
 
     return news
+
+
+# 4esfG6UEhGzNkbszfjAp
+def get_pm(city):
+    pinyin = lazy_pinyin(city)
+    pinyin = pinyin[0] + pinyin[1]
+    url = "http://www.pm25.in/api/querys/aqi_details.json?city={0}&token=4esfG6UEhGzNkbszfjAp".format(pinyin)
+    r = requests.get(url)
+    dict1 = r.json()
+    for item in ["{} {} {}\n".format(item['position_name'].encode('utf-8', "ignore"), item['pm2_5'],
+                                     item['quality'].encode('utf-8', "ignore")) for item in
+                 sorted(dict1, key=lambda d: d['pm2_5']) if
+                 item['quality'] and item['position_name'] and item['pm2_5']]:
+        content += item
+    return content
+

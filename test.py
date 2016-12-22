@@ -1,43 +1,30 @@
 # -*- coding: utf-8 -*-
-
-import hashlib
-import web
-import time
-import os
-import urllib2
-import json
-import urllib
-import re
-import random
-import cookielib
-from urllib import urlencode
+import requests
+from pypinyin import lazy_pinyin
 
 
-url1 = "http://m.ip138.com/51/guangzhou/tianqi/"
-headers = {
-    'Connection': 'Keep-Alive',
-    'Accept': 'text/html, application/xhtml+xml, */*',
-    'Accept-Language': 'en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'}
-req = urllib2.Request(url1, headers=headers)
-opener = urllib2.urlopen(req)
-html = opener.read().decode('utf-8')
-rex = r'(?<=img src="/image/s[0-9].gif" alt=").{1,6}(?=" />)'
-rexx = r'(?<=div class="temperature">).{5,15}(?=/div>)'
-n = re.findall(rex, html)
-m = re.findall(rexx, html)
+city = u'西安'
 
-str_wether = ""
-for (i, j) in zip(m, n):
-    str_wether = str_wether + j + "    " + i + '\n'
+pinyin = lazy_pinyin(city)
 
-# print str_wether
-print "天气真晴朗\n" + str_wether.encode('utf-8')
+pinyin = pinyin[0] + pinyin[1]
 
-# print html
-# print n
-# for littlen in n:
-#     print littlen,
-# print '\n'
-# for littlem in m:
-#     print littlem,
+
+url = "http://www.pm25.in/api/querys/aqi_details.json?city={0}&token=4esfG6UEhGzNkbszfjAp".format(pinyin)
+
+r = requests.get(url)
+
+encoding = r.encoding
+
+dict1 = r.json()
+
+content = str()
+# item['position_name'], item['pm2_5'], item['quality']
+for item in ["{} {} {}\n".format(item['position_name'].encode('utf-8', "ignore"), item['pm2_5'], item['quality'].encode('utf-8', "ignore")) for item in sorted(dict1, key=lambda d: d['pm2_5']) if item['quality'] and item['position_name'] and item['pm2_5']]:
+    content += item
+
+print content
+
+# for i in [item['position_name'] for item in sorted(dict1, key=lambda d: d['pm2_5']) if item['quality'] and item['position_name'] and item['pm2_5']]:
+#     print i, i.encode(encoding, 'ignore')
+
