@@ -60,7 +60,7 @@ def wechat_auth():
                 longitude = wechat.message.longitude
                 precision = wechat.message.precision
                 content = "nice"
-                return wechat.response_text(nice)
+                return wechat.response_text(content)
 
             else:
                 content = "Hello World!"
@@ -82,6 +82,11 @@ def wechat_auth():
             if content == u'新闻':
                 articles = get_weixin_hot()
                 return wechat.response_news(articles)
+
+            if content == u'买':
+                content = 'https://detail.tmall.com/item.htm?id=41620925543&ali_refid=a3_430583_1006:1109914468:N:3m%E5%8F%A3%E7%BD%A9:3b38f1a5c4c751847125a4ef56fe8a68&ali_trackid=1_3b38f1a5c4c751847125a4ef56fe8a68'
+                return wechat.response_text(content)
+
 
             else:
                 return wechat.response_text(content)
