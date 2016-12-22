@@ -71,6 +71,7 @@ def get_pm(city):
     url = "http://www.pm25.in/api/querys/aqi_details.json?city={0}&token=4esfG6UEhGzNkbszfjAp".format(pinyin)
     r = requests.get(url)
     dict1 = r.json()
+    content = str()
     for item in ["{} {} {}\n".format(item['position_name'].encode('utf-8', "ignore"), item['pm2_5'],
                                      item['quality'].encode('utf-8', "ignore")) for item in
                  sorted(dict1, key=lambda d: d['pm2_5']) if
