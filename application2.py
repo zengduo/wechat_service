@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, make_response, render_template
 from wechat_sdk import WechatBasic, WechatConf, WechatExt
-from wechat_sdk.messages import TextMessage, ImageMessage, VideoMessage, LocationMessage, LinkMessage, EventMessage, VoiceMessage
+from wechat_sdk.messages import TextMessage, ImageMessage, VideoMessage, LocationMessage, LinkMessage, EventMessage, \
+    VoiceMessage
 from wechat_sdk.exceptions import ParseError
 from plugins import get_weather_info, get_weixin_hot
 
@@ -22,9 +23,11 @@ answer = u'<a href="%s">【点击这里查看更多新闻】</a>\n\n欢迎使用
 def hello():
     return render_template('first.html')
 
+
 @app.route('/test')
 def test():
     return render_template('first.html')
+
 
 @app.route('/weixin', methods=['GET', 'POST'])
 def wechat_auth():
@@ -51,6 +54,14 @@ def wechat_auth():
             if wechat.message.type == 'subscribe':
                 content = "Hello World!"
                 return wechat.response_text(content)
+
+            elif wechat.message.type == 'location':
+                latitude = wechat.message.latitude
+                longitude = wechat.message.longitude
+                precision = wechat.message.precision
+                content = "nice"
+                return wechat.response_text(nice)
+
             else:
                 content = "Hello World!"
                 print "someone has off"
