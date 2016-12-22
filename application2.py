@@ -87,13 +87,13 @@ def wechat_auth():
                 content = 'https://detail.tmall.com/item.htm?id=41620925543&ali_refid=a3_430583_1006:1109914468:N:3m%E5%8F%A3%E7%BD%A9:3b38f1a5c4c751847125a4ef56fe8a68&ali_trackid=1_3b38f1a5c4c751847125a4ef56fe8a68'
                 return wechat.response_text(content)
 
-            if content == u'北京':
+            else:
                 content = get_pm(content)
                 return wechat.response_text(content)
-
-
-            else:
-                return wechat.response_text(content)
+            #
+            #
+            # else:
+            #     return wechat.response_text(content)
 
         else:
             content = "功能尚未开放，请耐心等待"
